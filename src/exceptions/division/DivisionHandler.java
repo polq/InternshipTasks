@@ -5,17 +5,24 @@ import java.util.Scanner;
 
 public class DivisionHandler {
 
-  public String divideInts(String firstInput, String secondInput) {
-    String inputStream = String.join(" ", firstInput, secondInput);
-    Scanner scanner = new Scanner(inputStream);
-    try {
-      int firstInt = scanner.nextInt();
-      int secondInt = scanner.nextInt();
-      return String.valueOf(firstInt / secondInt);
-    } catch (InputMismatchException e) {
-      return e.toString();
-    } catch (ArithmeticException e) {
-      return e.toString();
+  public int divideInts(String firstInput, String secondInput) {
+    if (firstInput == null || secondInput == null) {
+      throw new NullPointerException("Invalid null arguments");
     }
+
+    int firstInt;
+    int secondInt;
+    try {
+      firstInt = Integer.parseInt(firstInput);
+      secondInt = Integer.parseInt(secondInput);
+    } catch (NumberFormatException e) {
+      throw new InputMismatchException("Invalid arguments, input must be of type Integer");
+    }
+
+    if (secondInt == 0) {
+      throw new ArithmeticException("Division by zero is not allowed");
+    }
+
+    return firstInt / secondInt;
   }
 }
