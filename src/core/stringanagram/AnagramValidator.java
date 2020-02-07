@@ -1,7 +1,11 @@
 package core.stringanagram;
 
+import java.security.cert.CollectionCertStoreParameters;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class AnagramValidator {
 
@@ -14,25 +18,13 @@ public class AnagramValidator {
       return false;
     }
 
-    first = first.toLowerCase();
-    second = second.toLowerCase();
+    Map<String, Long> firstStringLetters =
+        Arrays.stream(first.toLowerCase().split(""))
+            .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
 
-    Map<Character, Integer> firstStringLetters = new HashMap<>();
-    Map<Character, Integer> secondStringLetters = new HashMap<>();
-
-    first
-        .chars()
-        .forEach(
-            chars ->
-                firstStringLetters.put(
-                    (char) chars, firstStringLetters.getOrDefault((char) chars, 0) + 1));
-
-    second
-        .chars()
-        .forEach(
-            chars ->
-                secondStringLetters.put(
-                    (char) chars, secondStringLetters.getOrDefault((char) chars, 0) + 1));
+    Map<String, Long> secondStringLetters =
+        Arrays.stream(second.toLowerCase().split(""))
+            .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
 
     return firstStringLetters.equals(secondStringLetters);
   }
